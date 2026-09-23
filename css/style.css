@@ -1,0 +1,1665 @@
+/* ==========================================================
+   NCSCC 2026 — Consolidated stylesheet
+   Visual values preserved from the existing stylesheet.
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   Design tokens
+   ---------------------------------------------------------- */
+
+:root {
+  --navy: #1B1F3B;
+  --navy-light: #252b50;
+  --gold: #F2C94C;
+  --gold-dark: #d4a843;
+  --white: #ffffff;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-600: #666;
+  --text: #1A2332;
+  --muted: #5F6B7A;
+  --border: #E4E7EF;
+  --crimson: #C52020;
+}
+
+/* ----------------------------------------------------------
+   Reset and base elements
+   ---------------------------------------------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--white);
+  background: var(--navy);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----------------------------------------------------------
+   Header and primary navigation
+   ---------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 32px;
+  background: var(--navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.logo img {
+  width: auto;
+  height: 42px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-nav > a {
+  padding: 0.5rem 0.9rem;
+  color: var(--white);
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.site-nav > a:hover,
+.site-nav > a.active {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.menu-toggle {
+  display: none;
+  color: var(--white);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Dynamic hamburger mode used by layout.js */
+
+.site-header.mobile-nav .menu-toggle {
+  display: block;
+}
+
+.site-header.mobile-nav .site-nav {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 16px 32px 24px;
+  background: var(--navy);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site-header.mobile-nav .site-nav.active {
+  display: flex;
+}
+
+.site-header.mobile-nav .site-nav > a {
+  width: 100%;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ----------------------------------------------------------
+   Program navigation dropdown
+   ---------------------------------------------------------- */
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-dropdown-button:hover,
+.nav-dropdown-button:focus,
+.nav-dropdown.open .nav-dropdown-button,
+.nav-dropdown.active .nav-dropdown-button {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dropdown-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1000;
+  min-width: 310px;
+  padding: 0.5rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.nav-dropdown.open .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 0.8rem 1rem;
+  color: var(--navy);
+  border-radius: 7px;
+  font-weight: 700;
+  white-space: normal;
+}
+
+.nav-dropdown-menu a:hover,
+.nav-dropdown-menu a:focus {
+  color: var(--crimson);
+  background: var(--gray-100);
+}
+
+.nav-dropdown-menu a span {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+/* Collapsed nav: the menu becomes an inline expander rather than a popover.
+   Keyed off .mobile-nav so it tracks the same width test layout.js applies. */
+
+.site-header.mobile-nav .nav-dropdown {
+  width: 100%;
+}
+
+.site-header.mobile-nav .nav-dropdown-button {
+  width: 100%;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site-header.mobile-nav .nav-dropdown-menu {
+  position: static;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0.35rem 0 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.site-header.mobile-nav .nav-dropdown-menu a {
+  padding: 0.75rem;
+  color: var(--white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-header.mobile-nav .nav-dropdown-menu a:hover,
+.site-header.mobile-nav .nav-dropdown-menu a:focus {
+  color: var(--gold);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.site-header.mobile-nav .nav-dropdown-menu a span {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ----------------------------------------------------------
+   Page banners and hero
+   ---------------------------------------------------------- */
+
+.page-banner {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy) 100%);
+  border-bottom: 3px solid var(--gold);
+}
+
+.page-banner .label {
+  margin-bottom: 0.5rem;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.page-banner h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+.page-banner p {
+  max-width: 700px;
+  margin: 0.75rem auto 0;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.hero {
+  padding: 4rem 2rem 2rem;
+  text-align: center;
+}
+
+.hero .logo-large {
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  transform: translateX(-54px);
+}
+
+.hero .label {
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.hero .date {
+  margin-top: 1rem;
+  color: var(--gold);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.hero .venue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------
+   Content and layout
+   ---------------------------------------------------------- */
+
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.layout-sidebar {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ----------------------------------------------------------
+   Cards
+   ---------------------------------------------------------- */
+
+.card {
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+  color: var(--text);
+  background: var(--white);
+  border-radius: 8px;
+}
+
+.card h2 {
+  margin-bottom: 1rem;
+  color: var(--navy);
+  font-size: 1.4rem;
+}
+
+.card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--navy);
+  font-size: 1.1rem;
+}
+
+.card p {
+  margin-bottom: 0.75rem;
+}
+
+.card .highlight {
+  padding: 0.75rem 1rem;
+  background: var(--gray-100);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------
+   Section headings
+   ---------------------------------------------------------- */
+
+.section-header {
+  position: relative;
+  margin-bottom: 42px;
+  padding: 52px 32px;
+  color: var(--white);
+  text-align: center;
+  background:
+    radial-gradient(circle at top left, rgba(242, 201, 76, 0.06), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(197, 32, 32, 0.06), transparent 35%),
+    var(--navy);
+  border-radius: 22px;
+}
+
+.section-header h1 {
+  margin: 0;
+  color: var(--white);
+  font-size: 52px;
+  line-height: 1.1;
+}
+
+.section-header p {
+  margin-top: 0.75rem;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+
+.section-header::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 999px;
+}
+
+/* ----------------------------------------------------------
+   Program schedule
+   ---------------------------------------------------------- */
+
+.schedule-section {
+  width: 100%;
+  color: var(--text);
+}
+
+.schedule-header {
+  margin-bottom: 28px;
+  padding: 52px 32px;
+  color: var(--white);
+  text-align: center;
+  background:
+    radial-gradient(circle at top left, rgba(242, 201, 76, 0.06), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(197, 32, 32, 0.06), transparent 35%),
+    var(--navy);
+  border-radius: 22px;
+}
+
+.schedule-header h1 {
+  margin: 0;
+  color: var(--white);
+  font-size: 52px;
+  line-height: 1.1;
+}
+
+.schedule-table-wrap {
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.schedule-section .schedule-table {
+  width: 100%;
+  color: var(--text);
+  background: var(--white);
+  border-collapse: collapse;
+}
+
+.schedule-section .schedule-table thead {
+  color: var(--white);
+  background: var(--navy);
+}
+
+.schedule-section .schedule-table th {
+  padding: 18px 20px;
+  color: var(--white);
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.schedule-section .schedule-table td {
+  padding: 18px 20px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  font-size: 16px;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.schedule-section .schedule-table tr:last-child td {
+  border-bottom: none;
+}
+
+.schedule-section .schedule-table td:first-child {
+  width: 170px;
+  color: var(--navy);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.schedule-section .schedule-table td:nth-child(3) {
+  width: 240px;
+}
+
+.schedule-section .schedule-table td:nth-child(4) {
+  width: 120px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.schedule-section .featured td {
+  background: rgba(242, 201, 76, 0.15);
+}
+
+.schedule-section .break-row td {
+  background: var(--gray-100);
+}
+
+.schedule-section .lunch-row td {
+  background: rgba(27, 31, 59, 0.06);
+}
+
+.schedule-section .closing-row td {
+  background: rgba(197, 32, 32, 0.08);
+}
+
+.schedule-section .merged-cell {
+  color: var(--navy);
+  font-weight: 800;
+  text-align: center;
+}
+
+.schedule-section em {
+  color: var(--muted);
+}
+
+.schedule-section strong {
+  color: var(--navy);
+}
+
+/* Speaker name + affiliation stack inside a schedule cell */
+
+.speaker-info strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.speaker-info .speaker-title {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+/* Program page only — wider schedule layout */
+
+.program-page .content {
+  width: 96%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+.program-page .schedule-section {
+  width: 100%;
+}
+
+.program-page .schedule-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.program-page .schedule-section .schedule-table {
+  width: 100%;
+  min-width: 1150px;
+  table-layout: fixed;
+}
+
+.program-page .schedule-section .schedule-table th:nth-child(1),
+.program-page .schedule-section .schedule-table td:nth-child(1) {
+  width: 17%;
+  white-space: nowrap;
+}
+
+.program-page .schedule-section .schedule-table th:nth-child(2),
+.program-page .schedule-section .schedule-table td:nth-child(2) {
+  width: 43%;
+}
+
+.program-page .schedule-section .schedule-table th:nth-child(3),
+.program-page .schedule-section .schedule-table td:nth-child(3) {
+  width: 25%;
+}
+
+.program-page .schedule-section .schedule-table th:nth-child(4),
+.program-page .schedule-section .schedule-table td:nth-child(4) {
+  width: 15%;
+  white-space: nowrap;
+}
+
+.program-page .schedule-section .schedule-table th,
+.program-page .schedule-section .schedule-table td {
+  padding: 18px 24px;
+}
+
+/* Three-column variant (no Location column) — reallocate the freed width */
+
+.program-page .schedule-section .schedule-table.schedule-3col {
+  min-width: 900px;
+}
+
+.program-page .schedule-section .schedule-table.schedule-3col th:nth-child(1),
+.program-page .schedule-section .schedule-table.schedule-3col td:nth-child(1) {
+  width: 18%;
+}
+
+.program-page .schedule-section .schedule-table.schedule-3col th:nth-child(2),
+.program-page .schedule-section .schedule-table.schedule-3col td:nth-child(2) {
+  width: 52%;
+}
+
+.program-page .schedule-section .schedule-table.schedule-3col th:nth-child(3),
+.program-page .schedule-section .schedule-table.schedule-3col td:nth-child(3) {
+  width: 30%;
+}
+
+.program-page .schedule-section .merged-cell {
+  text-align: center;
+}
+
+/* ----------------------------------------------------------
+   Speakers
+   ---------------------------------------------------------- */
+
+/* Flex rather than grid so a partial final row stays centred */
+.speaker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.speaker-grid .speaker-card {
+  width: 100%;
+  min-width: 0;
+}
+
+.speaker-card {
+  text-align: center;
+  width: 100%;
+  min-height: 340px;
+  padding: 1.75rem 1.25rem;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Keep the 3-column grid on medium screens */
+@media (max-width: 900px) {
+  .speaker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Single column on small screens */
+@media (max-width: 600px) {
+  .speaker-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.speaker-card img,
+.speaker-card .placeholder-img {
+  margin: 0 auto 1rem;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.keynote {
+  max-width: 500px;
+  min-height: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.keynote img,
+.keynote .placeholder-img {
+  width: 2in;
+  height: 2in;
+}
+
+.keynote h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.small {
+  min-height: 360px;
+}
+
+.small img,
+.small .placeholder-img {
+  width: 1.75in;
+  height: 1.75in;
+}
+
+.speaker-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.75rem;
+}
+
+.speaker-card p {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.speaker-card .speaker-org {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+}
+
+.placeholder-img {
+  background: var(--navy-light);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================================
+   SPONSORS & PARTNERS PAGE
+========================================================= */
+
+.sponsors-box {
+  width: 100%;
+  overflow: hidden;
+  padding: 3rem 2rem;
+  background: var(--white);
+  border-radius: 16px;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.sponsor-section {
+  width: 100%;
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.sponsor-section h2 {
+  margin: 0 0 2.5rem;
+
+  color: var(--navy);
+
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   GENERAL LOGO
+========================================================= */
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+
+/* =========================================================
+   GOLD SPONSORS
+========================================================= */
+
+.gold-tier h2 {
+  color: #a77900;
+}
+
+.gold-sponsors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4rem;
+}
+
+.gold-logo {
+  width: 192px;
+  height: 192px;
+}
+
+.gold-logo1 {
+  width: 256px;
+  height: 256px;
+}
+
+
+/* =========================================================
+   SILVER SPONSORS
+========================================================= */
+
+.silver-tier h2 {
+  color: #777777;
+}
+
+.silver-sponsors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3rem;
+}
+
+.silver-logo {
+  width: 200px;
+  height: 80px;
+}
+
+
+/* =========================================================
+   BRONZE SPONSORS
+========================================================= */
+
+.bronze-tier h2 {
+  color: #a65318;
+}
+
+.bronze-sponsors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 2.25rem;
+}
+
+.bronze-logo {
+  width: 120px;
+  height: 100px;
+}
+
+
+/* =========================================================
+   EMPTY SPONSOR TIERS
+========================================================= */
+
+.silver-sponsors:empty,
+.bronze-sponsors:empty {
+  display: none;
+}
+
+.silver-tier:has(.silver-sponsors:empty),
+.bronze-tier:has(.bronze-sponsors:empty) {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.silver-tier:has(.silver-sponsors:empty) h2,
+.bronze-tier:has(.bronze-sponsors:empty) h2 {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   SPONSORS / PARTNERS DIVIDER
+========================================================= */
+
+.sponsor-partner-divider {
+  width: min(850px, 90%);
+  height: 1px;
+
+  margin: 3rem auto 1.5rem;
+
+  background: #d0d0d0;
+}
+
+
+/* =========================================================
+   PARTNER SECTIONS
+========================================================= */
+
+.partner-section {
+  width: 100%;
+  padding: 3rem 0;
+}
+
+.partner-section h2 {
+  color: var(--navy);
+  opacity: 0.65;
+}
+
+
+/* =========================================================
+   HOSPITALITY PARTNERS
+========================================================= */
+
+.hospitality-partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4rem;
+}
+
+.hospitality-logo {
+  width: 192px;
+  height: 192px;
+}
+
+
+/* =========================================================
+   PARTNER DIVIDER
+========================================================= */
+
+.partner-divider {
+  width: min(650px, 75%);
+  height: 1px;
+
+  margin: 1rem auto;
+
+  background: #e3e3e3;
+}
+
+
+/* =========================================================
+   OTHER PARTNERS
+
+   DESKTOP:
+   4 LOGOS
+   4 LOGOS
+========================================================= */
+
+.other-partners {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  align-items: center;
+  justify-items: center;
+
+  column-gap: 1rem;
+  row-gap: 1rem;
+
+  width: min(800px, 100%);
+  margin: 0 auto;
+}
+
+.other-logo {
+  width: 110px;
+  height: 70px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sponsors-box {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .sponsor-section {
+    padding: 2.25rem 0;
+  }
+
+
+  /* Gold */
+
+  .gold-sponsors {
+    gap: 2.5rem;
+  }
+
+
+  /* Silver */
+
+  .silver-sponsors {
+    gap: 2rem;
+  }
+
+
+  /* Bronze */
+
+  .bronze-sponsors {
+    gap: 1.75rem;
+  }
+
+
+  /* Hospitality */
+
+  .hospitality-partners {
+    gap: 2.5rem;
+  }
+
+
+  /* Other Partners */
+
+  .other-partners {
+    grid-template-columns: repeat(4, 1fr);
+
+    column-gap: 1.5rem;
+    row-gap: 2.5rem;
+  }
+
+  .other-logo {
+    width: 110px;
+    height: 70px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  /*
+     Other partners become:
+
+     Logo Logo
+     Logo Logo
+     Logo Logo
+     Logo Logo
+  */
+
+  .other-partners {
+    grid-template-columns: repeat(2, 1fr);
+
+    max-width: 500px;
+
+    column-gap: 1.5rem;
+    row-gap: 2rem;
+  }
+
+  .other-logo {
+    width: 160px;
+    height: 90px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .sponsors-box {
+    padding: 2rem 1rem;
+  }
+
+  .sponsor-section {
+    padding: 2rem 0;
+  }
+
+  .sponsor-section h2 {
+    margin-bottom: 1.75rem;
+
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+  }
+
+
+  /* =======================================================
+     GOLD
+  ======================================================= */
+
+  .gold-sponsors {
+    gap: 1.5rem;
+  }
+
+  .gold-logo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .gold-logo1 {
+    width: 175px;
+    height: 175px;
+  }
+
+
+  /* =======================================================
+     SILVER
+  ======================================================= */
+
+  .silver-sponsors {
+    gap: 1.5rem;
+  }
+
+  .silver-logo {
+    width: 150px;
+    height: 65px;
+  }
+
+
+  /* =======================================================
+     BRONZE
+  ======================================================= */
+
+  .bronze-sponsors {
+    gap: 1.25rem;
+  }
+
+  .bronze-logo {
+    width: 100px;
+    height: 80px;
+  }
+
+
+  /* =======================================================
+     HOSPITALITY
+  ======================================================= */
+
+  .hospitality-partners {
+    gap: 1.5rem;
+  }
+
+  .hospitality-logo {
+    width: 140px;
+    height: 140px;
+  }
+
+
+  /* =======================================================
+     OTHER PARTNERS
+
+     MOBILE:
+     2 LOGOS PER ROW
+  ======================================================= */
+
+  .other-partners {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    width: 100%;
+    max-width: 380px;
+
+    column-gap: 1rem;
+    row-gap: 1.75rem;
+
+    margin: 0 auto;
+  }
+
+  .other-logo {
+    width: 130px;
+    height: 80px;
+  }
+
+
+  /* =======================================================
+     DIVIDERS
+  ======================================================= */
+
+  .sponsor-partner-divider {
+    width: 90%;
+    margin-top: 2rem;
+  }
+
+  .partner-divider {
+    width: 80%;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .other-partners {
+    column-gap: 0.5rem;
+  }
+
+  .other-logo {
+    width: 115px;
+    height: 72px;
+  }
+
+}
+/* ----------------------------------------------------------
+   Event details
+   ---------------------------------------------------------- */
+
+.event-details {
+  color: var(--white);
+}
+
+.event-details .detail-item {
+  margin-bottom: 1.25rem;
+}
+
+.event-details .detail-label {
+  margin-bottom: 0.2rem;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.event-details .detail-value {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------
+   Buttons
+   ---------------------------------------------------------- */
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-gold {
+  color: var(--white);
+  background: var(--crimson);
+}
+
+.btn-gold:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+a.btn-abstractbtn {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 22px;
+  color: var(--white) !important;
+  background-color: #C99700 !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+a.btn-abstractbtn:hover {
+  color: var(--white) !important;
+  background-color: #A87F00 !important;
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------------
+   Tags
+   ---------------------------------------------------------- */
+
+.tag-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.6rem 1rem;
+  color: var(--text);
+  background: var(--gray-100);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* ----------------------------------------------------------
+   Important dates
+   ---------------------------------------------------------- */
+
+.dates-table {
+  width: 100%;
+}
+
+.dates-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dates-table td {
+  padding: 0.75rem 0;
+}
+
+.dates-table .date-label {
+  width: 140px;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dates-table .date-desc {
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------
+   Awards
+   ---------------------------------------------------------- */
+
+.award-card {
+  padding: 1.5rem;
+  color: var(--text);
+  text-align: center;
+  background: var(--white);
+  border-radius: 8px;
+}
+
+.award-card .place {
+  margin-bottom: 0.25rem;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+}
+
+.award-card .amount {
+  color: var(--navy);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+/* ----------------------------------------------------------
+   Committee
+   ---------------------------------------------------------- */
+
+.committee-section {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.committee-section h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.committee-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.committee-member {
+  text-align: center;
+}
+
+.committee-member .placeholder-img {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 0.75rem;
+  background: var(--navy-light);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.committee-member .placeholder-img.small {
+  width: 160px;
+  height: 160px;
+}
+
+.committee-member h4 {
+  font-size: 1.1rem;
+}
+
+.committee-img {
+  display: block;
+  width: 2in;
+  height: 2in;
+  margin: 0 auto 0.75rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* ----------------------------------------------------------
+   Coming soon
+   ---------------------------------------------------------- */
+
+.coming-soon-card {
+  max-width: 760px;
+  margin: 4rem auto;
+  padding: 4rem 2rem;
+  color: var(--white);
+  text-align: center;
+  background:
+    radial-gradient(circle at top left, rgba(242, 201, 76, 0.08), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(197, 32, 32, 0.08), transparent 35%),
+    var(--navy);
+  border-bottom: 4px solid var(--gold);
+  border-radius: 22px;
+}
+
+.coming-soon-card h1 {
+  margin-bottom: 1rem;
+  color: var(--white);
+  font-size: 3rem;
+}
+
+.coming-soon-card p {
+  max-width: 580px;
+  margin: 0 auto 1.25rem;
+  color: #D8DEEA;
+  font-size: 1.15rem;
+}
+
+.coming-soon-date {
+  color: var(--gold) !important;
+  font-weight: 600;
+}
+
+/* ----------------------------------------------------------
+   Footer
+   ---------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 3rem;
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer .footer-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.site-footer .footer-logos img {
+  height: 50px;
+}
+
+.site-footer .floral {
+  max-width: 300px;
+  margin: 1rem auto;
+}
+
+.site-footer p {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* ----------------------------------------------------------
+   Utilities
+   ---------------------------------------------------------- */
+
+hr {
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.bg-white {
+  padding: 4rem 0;
+  background: var(--white);
+}
+
+.card-label {
+  color: var(--gold);
+}
+
+.card-label.mt-1 {
+  margin-top: 1rem;
+}
+
+.track-label {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+/* ----------------------------------------------------------
+   Responsive styles
+   ---------------------------------------------------------- */
+
+@media (max-width: 800px) {
+  .schedule-header {
+    padding: 42px 20px;
+    border-radius: 18px;
+  }
+
+  .schedule-header h1 {
+    font-size: 38px;
+  }
+
+  .schedule-section .schedule-table,
+  .schedule-section .schedule-table thead,
+  .schedule-section .schedule-table tbody,
+  .schedule-section .schedule-table th,
+  .schedule-section .schedule-table td,
+  .schedule-section .schedule-table tr {
+    display: block;
+  }
+
+  .schedule-section .schedule-table thead {
+    display: none;
+  }
+
+  .schedule-section .schedule-table tr {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .schedule-section .schedule-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .schedule-section .schedule-table td {
+    width: 100% !important;
+    padding: 8px 0;
+    border-bottom: none;
+    white-space: normal !important;
+  }
+
+  .schedule-section .schedule-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: var(--crimson);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .schedule-section .schedule-table td:first-child {
+    font-size: 18px;
+  }
+
+  .merged-cell {
+    text-align: left;
+  }
+
+  .merged-cell::before {
+    content: "Activity";
+  }
+
+  .program-page .content {
+    width: 100%;
+    padding: 1.5rem 1rem;
+  }
+
+  .program-page .schedule-section .schedule-table {
+    min-width: 0;
+    table-layout: auto;
+  }
+
+  .program-page .schedule-table-wrap {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero .logo-large {
+    max-width: 300px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .layout-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .speaker-grid .speaker-card {
+    flex-basis: 100%;
+  }
+
+  .content {
+    padding: 1.5rem 1rem;
+  }
+
+  .page-banner {
+    padding: 2rem 1rem;
+  }
+
+  .page-banner h1 {
+    font-size: 1.6rem;
+  }
+
+  .sponsor-row {
+    flex-direction: column;
+  }
+}
